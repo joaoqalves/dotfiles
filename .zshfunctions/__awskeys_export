@@ -1,0 +1,20 @@
+autoload __awskeys_list
+autoload __awskeys_get
+
+function __awskeys_export {
+    if [[ $(__awskeys_list) == *"$1"* ]]; then
+        local p_keys=( $(__awskeys_get $1 | tr -d " ") )
+        if [[ -n "${p_keys}" ]]; then
+            for p_key in ${p_keys[@]}; do
+                local key="${p_key%=*}"
+                #export "$(echo ${key} | tr [:lower:] [:upper:])=${p_key#*=}"
+                export "$(echo ${key} | sed -E "s/([a-z]+)/\L\1/")=${p_key#*=}"
+            done
+        fi
+        export AWS_DEFAULT_PROFILE="$1"
+    else
+        echo "Profile $1 not found in credentials file"
+    fi
+}
+
+__awskeys_export "$@"

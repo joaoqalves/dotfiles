@@ -1,0 +1,12 @@
+autoload __awskeys_list
+autoload __awskeys_export
+
+function fak {
+    local target
+    target=$(__awskeys_list | grep "^ " | tr -d ' ' | grep -v "default" |
+             fzf --min-height 10 --height 15 -q "$*") || return
+    echo "${target}"
+    __awskeys_export "${target}"
+}
+
+fak "$@"

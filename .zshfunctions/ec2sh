@@ -1,0 +1,23 @@
+autoload __awless_show
+
+function ec2sh {
+  if [[ -z "${AWS_DEFAULT_PROFILE}" ]]; then
+    echo 'No AWS credentials found in the environment!'
+    return
+  else
+    local target
+    local ssh_command
+    target=$(awless ls instances --silent --format tsv --no-headers \
+                    --sort name,uptime --filter state=running |
+             cut -f 1,3,7 |
+             fzf --sync --no-hscroll --tabstop=1 -d $'\t' -n 1,2 \
+                 --preview-window right:60%:wrap \
+                 --preview '__awless_show {1}' \
+                 --prompt "${AWS_DEFAULT_PROFILE} ❯ " --ansi -q "$*" ) || return
+    ssh_command=$(awless ssh --print-cli --disable-strict-host-keychecking \
+                         --private $(cut -f 1 <<< "${target}"))
+    command $(sed 's/-o StrictHostKeyChecking=no//' <<< "${ssh_command}")
+  fi
+}
+
+ec2sh "$@"

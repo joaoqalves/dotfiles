@@ -1,0 +1,12 @@
+function __awless_show {
+  local lock_file
+  lock_file="/tmp/awless-show.lock"
+  [[ -f "${lock_file}" ]] && return
+  awless show --silent --local --siblings --color=always $1 2> /dev/null
+  if [[ "$?" -ne 0 ]]; then
+    touch "${lock_file}" &> /dev/null
+    awless sync --silent --infra 2> /dev/null
+    rm -f "${lock_file}" &> /dev/null
+    awless show --silent --local --siblings --color=always $1 2> /dev/null
+  fi
+}

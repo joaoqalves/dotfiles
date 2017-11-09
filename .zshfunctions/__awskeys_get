@@ -1,0 +1,6 @@
+function __awskeys_get {
+    local ln=$(grep -n "\[ *$1 *\]" ~/.aws/credentials | cut -d ":" -f 1)
+    if [[ -n "${ln}" ]]; then
+        tail -n +${ln} ~/.aws/credentials | egrep -m 2 "aws_access_key_id|aws_secret_access_key"
+    fi
+}
