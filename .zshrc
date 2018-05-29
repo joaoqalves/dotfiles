@@ -152,3 +152,14 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export WORKON_HOME=$HOME/.virtualenvs
 source "$HOME/.local/bin/virtualenvwrapper.sh"
 export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
+
+# GPG
+export GPG_TTY=$(tty)
+
+# Go
+export GOPATH=$HOME/p/go
+export GOROOT=/usr/local/opt/go/libexec/
+export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+
+# Sch CLI
+export PATH=$PATH:$HOME/.sch/bin
