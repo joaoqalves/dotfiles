@@ -7,22 +7,16 @@ function ec2sh {
   else
     local target
     local target_ip
-    local key
-    local ssh_command
-    local address_idx=3
-    local pub_ip_key="alt-enter"
+    local address_idx=2
     target=($(awless ls instances --silent --format tsv --no-headers \
                     --sort name,uptime --filter state=running |
              fzf --sync --no-hscroll --tabstop=1 -d $'\t' \
                  --with-nth=1,3,6,7 --nth 1,2 \
-                 --expect=enter --expect=${pub_ip_key} \
+                 --expect=enter \
                  --preview-window right:60%:wrap \
                  --preview '__awless_show {1}' \
                  --prompt "${AWS_DEFAULT_PROFILE} ❯ " --ansi -q "$*" | cut -f 6,7))
     if [[ -n "${target}" ]]; then
-        key=$(cut -d' ' -f1 <<< "${target}")
-        echo $(cut -d$'\n' -f${address_idx} <<< "${target}")
-        [[ ${key} = ${pub_ip_key} ]] && address_idx=2
         target_ip=$(cut -d' ' -f${address_idx} <<< "${target}")
         ssh ${target_ip}
     fi

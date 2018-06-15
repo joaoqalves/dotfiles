@@ -1,0 +1,5 @@
+[user]
+    email = j.alves@mytaxi.com
+    signingKey = 36AFFB5EC12A2D0179B77A9731AC75DAB55D5F3D
+[commit]
+    gpgSign = true

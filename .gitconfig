@@ -1,0 +1,27 @@
+[user]
+    name = João Alves
+[user]
+	useconfigonly = true
+[github]
+	user = joaoqalves
+[pull]
+	rebase = true
+[push]
+	default = upstream
+[diff]
+	algorithm = minimal
+	;compactionHeuristic = true
+	indentHeuristic = true
+	tool = vimdiff
+[includeIf "gitdir:~/"]
+    path = ~/.config/git/config.personal
+[includeIf "gitdir:~/p/"]
+	path = ~/.config/git/config.work
+[includeIf "gitdir:~/j/"]
+	path = ~/.config/git/config.personal
+[gui]
+	recentrepo = /Users/joaoqalves/p/taxiorderservice
+[core]
+	editor = code --wait
+[rerere]
+	enabled = true

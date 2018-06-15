@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/joaoalves/.oh-my-zsh
+export ZSH=/Users/joaoqalves/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -56,110 +56,57 @@ plugins=(git git-extras jira)
 
 # User configuration
 
-#export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-# export MANPATH="/usr/local/man:$MANPATH"
-#export PATH="/Users/joaoalves/.pyenv/shims:/Users/joaoalves/.jenv/shims:/Users/joaoalves/.jenv/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export PATH="$PATH:$HOME/bin:$HOME/.local/bin"
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
 source $ZSH/oh-my-zsh.sh
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh
-
-#export LC_ALL=es_ES.ISO88591
-#export LANG=es_ES.ISO88591
-#export LC_CTYPE=es_ES.ISO88591
-#export LESSCHARSET=ISO-8859-1
-
 # My Config
-DEFAULT_USER="joaoalves"
-JIRA_URL="https://jira.scmspain.com"
+DEFAULT_USER="joaoqalves"
 
 # Functions
 gdf() { git diff --color $@ | diff-so-fancy }
+rbi() { merge_base=$(git merge-base "$1" HEAD); git rebase -i "${merge_base}"  }
+
+source .zshrc_work
 
 # Aliases
 alias cdp="cd $HOME/p"
-alias cdij="cd $HOME/p/ij-empleo"
-alias jb="sh /opt/jboss/jboss-eap/bin/standalone.sh"
-alias sgrunt="cd $HOME/p/ij-empleo/grunt; grunt --target=dev"
-alias vi=nvim
-alias vim=nvim
+alias cdc="cd $HOME/p/config"
 
 # JEnv
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
 # PyEnv
+export PATH="$HOME/.local/bin:$PATH"
 eval "$(pyenv init -)"
-
-# Virtualenv wrapper
-export WORKON_HOME=$HOME/.virtualenvs
-source "$HOME/.local/bin/virtualenvwrapper.sh"
-
-# Docker
-default_docker_machine=$(docker-machine ls | grep "default" > /dev/null 2>&1)
-if [[ $? -eq 0 ]]; then
-    eval "$(docker-machine env default)"
-else
-    echo "No docker-machine available! Please run:"
-    echo "docker-machine start default"
-fi
-export DOCKER_IP="192.168.99.100"
-
 
 export LDFLAGS="-L/usr/local/opt/openssl/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl/include"
 export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
 
-# added by travis gem
-[ -f /Users/joaoalves/.travis/travis.sh ] && source /Users/joaoalves/.travis/travis.sh
+
+# AWS
+export AWS_SHARED_CREDENTIALS_FILE="$HOME/.aws/credentials"
+export AWS_DEFAULT_PROFILE="jeffrey"
+export AWS_DEFAULT_REGION="eu-west-1"
 
 # AWLESS + ec2sh
-export AWS_DEFAULT_PROFILE=Infojobs-Prod
-source <(awless completion zsh)
+source /usr/local/share/zsh/site-functions/_awless
 autoload -Uz ec2sh
 autoload -Uz fak
 
 # ZSH Syntax Highlighting
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Virtualenv wrapper
-export WORKON_HOME=$HOME/.virtualenvs
-source "$HOME/.local/bin/virtualenvwrapper.sh"
-export PATH="/usr/local/opt/gnu-getopt/bin:$PATH"
-
 # GPG
 export GPG_TTY=$(tty)
 
 # Go
 export GOPATH=$HOME/p/go
-export GOROOT=/usr/local/opt/go/libexec/
+export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 
-# Sch CLI
-export PATH=$PATH:$HOME/.sch/bin
+# ProtoBuf path
+export PATH="/usr/local/opt/protobuf@2.5/bin:$PATH"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
