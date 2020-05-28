@@ -63,9 +63,9 @@ DEFAULT_USER="joaoqalves"
 
 # Functions
 gdf() { git diff --color $@ | diff-so-fancy }
-rbi() { merge_base=$(git merge-base "$1" HEAD); git rebase -i "${merge_base}"  }
+rbi() { merge_base=$(git merge-base "$1" HEAD); git checkout "$1"; git pull --rebase origin "$1"; git checkout -; git rebase -i "${merge_base}" --autosquash  }
 
-source .zshrc_work
+source "${HOME}/.zshrc_work"
 
 # Aliases
 alias cdp="cd $HOME/p"
@@ -74,6 +74,7 @@ alias cdc="cd $HOME/p/config"
 # JEnv
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
+export JAVA_HOME="$HOME/.jenv/versions/`jenv version-name`"
 
 # PyEnv
 export PATH="$HOME/.local/bin:$PATH"
@@ -82,7 +83,6 @@ eval "$(pyenv init -)"
 export LDFLAGS="-L/usr/local/opt/openssl/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl/include"
 export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
-
 
 # AWS
 export AWS_SHARED_CREDENTIALS_FILE="$HOME/.aws/credentials"
@@ -93,6 +93,11 @@ export AWS_DEFAULT_REGION="eu-west-1"
 source /usr/local/share/zsh/site-functions/_awless
 autoload -Uz ec2sh
 autoload -Uz fak
+autoload -Uz kpod
+autoload -Uz king
+autoload -Uz kdpl
+autoload -Uz kall
+autoload -Uz krestart
 
 # ZSH Syntax Highlighting
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -109,4 +114,12 @@ export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 export PATH="/usr/local/opt/protobuf@2.5/bin:$PATH"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+export PATH="$GEM_HOME/bin:$PATH"
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
