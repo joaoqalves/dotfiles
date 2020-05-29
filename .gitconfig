@@ -1,7 +1,8 @@
 [user]
-    name = João Alves
+	name = João Alves
 [user]
 	useconfigonly = true
+	email = joaoqalves@gmail.com
 [github]
 	user = joaoqalves
 [pull]

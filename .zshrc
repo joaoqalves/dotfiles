@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/joaoqalves/.oh-my-zsh
 
@@ -5,10 +12,7 @@ export ZSH=/Users/joaoqalves/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="powerlevel9k/powerlevel9k"
-POWERLEVEL9K_MODE="nerdfont-complete"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status aws pyenv virtualenv time)
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -71,10 +75,8 @@ source "${HOME}/.zshrc_work"
 alias cdp="cd $HOME/p"
 alias cdc="cd $HOME/p/config"
 
-# JEnv
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
-export JAVA_HOME="$HOME/.jenv/versions/`jenv version-name`"
+# Java
+export JAVA_HOME="~/.sdkman/candidates/java/current"
 
 # PyEnv
 export PATH="$HOME/.local/bin:$PATH"
@@ -87,6 +89,7 @@ export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
 # AWS
 export AWS_SHARED_CREDENTIALS_FILE="$HOME/.aws/credentials"
 export AWS_DEFAULT_PROFILE="jeffrey"
+export SAML2AWS_IDP_ACCOUNT="${AWS_DEFAULT_PROFILE}"
 export AWS_DEFAULT_REGION="eu-west-1"
 
 # AWLESS + ec2sh
@@ -123,3 +126,10 @@ export PATH="$GEM_HOME/bin:$PATH"
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
 export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/joaoqalves/.sdkman"
+[[ -s "/Users/joaoqalves/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/joaoqalves/.sdkman/bin/sdkman-init.sh"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
